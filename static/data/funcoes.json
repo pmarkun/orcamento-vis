@@ -1,0 +1,113 @@
+{
+  "total" : 63172171470.52,
+  "funcoes" : [
+    {
+      "funcao" : "ENCARGOS ESPECIAIS",
+      "valor" : 2.198879684711E10
+    },
+    {
+      "funcao" : "PREVIDENCIA SOCIAL",
+      "valor" : 1.126686777191E10
+    },
+    {
+      "funcao" : "EDUCACAO",
+      "valor" : 7.28282325314E9
+    },
+    {
+      "funcao" : "SAUDE",
+      "valor" : 6.23233819077E9
+    },
+    {
+      "funcao" : "SEGURANCA PUBLICA",
+      "valor" : 5.66765168166E9
+    },
+    {
+      "funcao" : "JUDICIARIA",
+      "valor" : 2.77128903795E9
+    },
+    {
+      "funcao" : "ADMINISTRACAO",
+      "valor" : 2.19570901626E9
+    },
+    {
+      "funcao" : "TRANSPORTE",
+      "valor" : 1.2015261982E9
+    },
+    {
+      "funcao" : "ESSENCIAL A JUSTICA",
+      "valor" : 1.13942745312E9
+    },
+    {
+      "funcao" : "LEGISLATIVA",
+      "valor" : 1.11950988492E9
+    },
+    {
+      "funcao" : "AGRICULTURA",
+      "valor" : 5.0373032453E8
+    },
+    {
+      "funcao" : "CIENCIA E TECNOLOGIA",
+      "valor" : 4.1943048759E8
+    },
+    {
+      "funcao" : "GESTAO AMBIENTAL",
+      "valor" : 2.8316170173E8
+    },
+    {
+      "funcao" : "INDUSTRIA",
+      "valor" : 2.2253059496E8
+    },
+    {
+      "funcao" : "COMERCIO E SERVICOS",
+      "valor" : 2.1086775455E8
+    },
+    {
+      "funcao" : "ASSISTENCIA SOCIAL",
+      "valor" : 1.8923540326E8
+    },
+    {
+      "funcao" : "CULTURA",
+      "valor" : 1.450428495E8
+    },
+    {
+      "funcao" : "DESPORTO E LAZER",
+      "valor" : 9.151036159E7
+    },
+    {
+      "funcao" : "HABITACAO",
+      "valor" : 7.153068941E7
+    },
+    {
+      "funcao" : "TRABALHO",
+      "valor" : 6.958559707E7
+    },
+    {
+      "funcao" : "URBANISMO",
+      "valor" : 4.082550213E7
+    },
+    {
+      "funcao" : "DIREITOS DA CIDADANIA",
+      "valor" : 2.68907722E7
+    },
+    {
+      "funcao" : "ORGANIZACAO AGRARIA",
+      "valor" : 1.505552098E7
+    },
+    {
+      "funcao" : "SANEAMENTO",
+      "valor" : 1.11408202E7
+    },
+    {
+      "funcao" : "COMUNICACOES",
+      "valor" : 5584724.11
+    },
+    {
+      "funcao" : "RELACOES EXTERIORES",
+      "valor" : 56220.07
+    },
+    {
+      "funcao" : "ENERGIA",
+      "valor" : 52811.6
+    }
+  ]
+}

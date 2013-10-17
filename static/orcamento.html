@@ -1,0 +1,332 @@
+<html>
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/extenso.js"></script>
+
+        <style>
+        @media print {
+            .page-break { display: block; page-break-before: always; }
+            .folha {
+                background-color:transparent !important;
+            }
+            @page {size: landscape}
+        }
+        
+        #repo { 
+            display:none;
+        }
+        
+        .folha {
+                width:210mm;
+                height:297mm;
+                padding:0.2cm;
+                background-color: #eee;
+                font-family: Helvetica;
+            }
+
+        .folha h1 {
+            font-size:0.35cm;            
+        }
+
+        .folha h2 {
+            font-size:0.3cm;
+        }
+        .folha.wide {
+            width:297mm;
+            height:205mm;
+        }
+
+        .huge h1 {
+            font-size:2cm;
+        }
+        .huge h2 {
+            font-size:1cm;
+        }
+        .middle-table {
+            text-align: center;
+            display:table;
+            height:100%;
+            width:100%;
+        }
+        .middle {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .categoria {
+            float:left;
+            border-right:0.1cm solid black;
+            padding:0.5cm;
+            width:3.1cm;
+            height:8cm;
+            /*background-color: #f00;*/
+        }
+
+        .categoria .blocos {
+            height:4cm;
+            -webkit-transform:rotate(180deg);
+        }
+        </style>
+        <style>
+        .unidade {
+                background-color: #f00;
+            }
+            .unidade {
+                height:0.1cm;
+                width:0.1cm;
+                margin:0cm;
+            }
+            .dezena {
+                clear:both;
+                height:0.1cm;
+                width:1cm;
+            }
+            .dezena .unidade {
+                float:left;
+            }
+
+            .centena {
+                clear:both;
+                float:left;
+                height:1cm;
+                width:1cm;
+            }
+            .centena .dezena {
+                float:left;
+            }
+
+            #centena, #dezena, #unidade {
+                border:0.1cm solid #000;
+                margin:0.03cm;
+                float:right;
+                clear:none;
+            }
+            </style>
+    
+            <script>
+
+                var extenso = function(num) {
+                    return  num.toFixed(2).replace('.',',').extenso(true)
+                }
+                var contaBlocos = function(num) {
+                    var blocos = {}
+                    blocos['dezenas'] = Math.floor(num/10);
+                    num = num-blocos['dezenas']*10;
+                    blocos['unidades'] = Math.floor(num/1);;
+                    num = num - blocos['unidades']*1;
+                    blocos['decimais'] = Math.floor(num*10);;
+                    num = num - blocos['decimais']*0.1;
+                    return blocos;
+                }
+                $(document).ready(function () {
+                    var unidade = document.getElementById("unidade");
+                    var dezena = document.getElementById("dezena");
+                    var centena = document.getElementById("centena");
+                    var categoria = $("#CATEGORIA");
+
+                    $.getJSON("data/funcoes.json", function(data) {
+                        var count = 0;
+                        var folha = 0;
+                        var max = 14;
+                        var total = data.total; //arrumar
+                        $("#folha-orcamento h1").text(total);
+                        $("#folha-orcamento h2").text(extenso(total));
+                            $.each(data.funcoes, function(index, item) {
+                                if (count >= max) {
+                                    folha += 1;
+                                    count = 0;
+                                    $("body").append('<div class="page-break"></div>');
+                                    $("body").append('<div id="folha-'+ String(folha)+'" class="folha wide">')
+                                }
+
+                                var c = categoria.clone();
+                                var per = item.valor/total*100;
+                                c.find("h1").text(item.funcao);
+                                c.find(".abs").text(item.valor);
+                                c.find(".rel").text(per.toFixed(1));
+                                c.find(".long").text(extenso(item.valor))
+                                var b = contaBlocos(per.toFixed(1));
+
+                                for (var i=0;i<b['decimais'];i++) {
+                                    c.find('.blocos').append(unidade.cloneNode(true));
+                                }
+                                for (var i=0;i<b['dezenas'];i++) {
+                                    c.find('.blocos').append(centena.cloneNode(true));
+                                }
+                                for (var i=0;i<b['unidades'];i++) {
+                                    c.find('.blocos').append(dezena.cloneNode(true));
+                                }
+                                
+                                $("#folha-"+String(folha)).append(c);
+                                count += 1;
+                            });
+                        });
+
+                });
+            </script>
+    </head>
+    <body>
+        <div id="folha-orcamento" class="folha wide huge">
+            <div class="middle-table"><div class="middle">
+                <h1></h1>
+                <h2>(Um bilhão e trezentos mil)</h2>
+            </div></div>
+        </div>
+        <div class="page-break"></div>
+        <div id="folha-0" class="folha wide">
+        </div>
+
+
+                <div id="repo">
+            <div id="CATEGORIA" class="categoria">
+                <div class="blocos">
+                </div>
+                <div class="legenda">
+                    <h1>CATEGORIA</h1>
+                    <h2><span class="abs">10000.0</span> - <span class="rel">0,1%</span></h2>
+                    <h2><span class="long"></span></h2>
+                </div>
+            </div>
+
+
+            <div id="unidade" class="unidade"></div>
+
+            <div id="dezena" class="dezena">
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+                <div class="unidade"></div>
+            </div>
+
+            <div id="centena" class="centena">
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+                <div class="dezena">
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                    <div class="unidade"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

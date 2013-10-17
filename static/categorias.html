@@ -1,0 +1,77 @@
+<html>
+    <head>
+    <script src="js/jquery.min.js"></script>
+    <style>
+    @media print {
+        .page-break { display: block; page-break-before: always; }
+        .folha {
+            background-color:transparent !important;
+        }
+    }
+
+    #repo {
+        display:none;
+    }
+    .folha {
+                text-align: center;
+                width:210mm;
+                height:297mm;
+                padding:0.2cm;
+                background-color: #eee;
+            }
+
+    .ficha {
+        width:4.5cm;
+        height:4.5cm;
+        background-color: navy;
+        color:white;
+        -moz-border-radius: 20%;
+        -webkit-border-radius: 20%;
+        text-align: center;
+        border:0.2cm solid #000;
+        margin:0.1cm;
+        float:left;
+    }
+    .texto {
+        font-family: Helvetica;
+        display:inline-block;
+        margin-top:1.5cm;
+        height:2cm;
+        font-size:0.5cm;
+        font-weight: bold;
+    }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var ficha = $("#repo .ficha");
+            var count = 0;
+            var folha = 0;
+            var max = 24;
+            $.getJSON("data/funcoes.json", function(data) {
+                $.each(data.funcoes, function(index, item) {
+                    if (count >= max) {
+                        folha += 1;
+                        count = 0;
+                        $("body").append('<div class="page-break"></div>');
+                        $("body").append('<div id="folha-'+ String(folha)+'" class="folha">')
+                    }
+                    var f = ficha;
+                    f.find(".texto").text(item.funcao);
+                    $("#folha-"+String(folha)).append(f.clone());
+                    count += 1;
+                });
+            });
+        });
+    </script>
+    </head>
+
+    <body>
+        <div id="repo">
+            <div class="ficha">
+                <div class="texto">Ficha</div>
+            </div>
+        </div>
+        <div id="folha-0" class="folha">
+        </div>
+    </body>
+</html>
