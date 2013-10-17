@@ -12,6 +12,17 @@
     #repo {
         display:none;
     }
+    .red {
+        background-color: green !important;
+    }
+
+    .blue {
+        background-color: red !important;
+    }
+
+    .huge {
+        font-size: 3cm !important;
+    }
     .folha {
                 text-align: center;
                 width:210mm;
@@ -31,11 +42,12 @@
         border:0.2cm solid #000;
         margin:0.1cm;
         float:left;
+        display:table;
     }
     .texto {
         font-family: Helvetica;
-        display:inline-block;
-        margin-top:1.5cm;
+        display:table-cell;
+        vertical-align: middle;
         height:2cm;
         font-size:0.5cm;
         font-weight: bold;
@@ -43,10 +55,21 @@
     </style>
     <script>
         $(document).ready(function () {
-            var ficha = $("#repo .ficha");
+            var ficha = $("#repo #blank");
             var count = 0;
             var folha = 0;
             var max = 24;
+            for (var i=0;i<5;i++) {
+            if (count >= max) {
+                folha += 1;
+                count = 0;
+                $("body").append('<div class="page-break"></div>');
+                $("body").append('<div id="folha-'+ String(folha)+'" class="folha">')
+                }
+                $("#folha-"+String(folha)).append($("#plus").clone());
+                $("#folha-"+String(folha)).append($("#minus").clone());
+                count += 2;
+            }
             $.getJSON("data/funcoes.json", function(data) {
                 $.each(data.funcoes, function(index, item) {
                     if (count >= max) {
@@ -67,7 +90,13 @@
 
     <body>
         <div id="repo">
-            <div class="ficha">
+            <div id="plus" class="ficha red">
+                <div class="texto huge">+</div>
+            </div>
+            <div id="minus" class="ficha blue">
+                <div class="texto huge">-</div>
+            </div>
+            <div id="blank" class="ficha">
                 <div class="texto">Ficha</div>
             </div>
         </div>
